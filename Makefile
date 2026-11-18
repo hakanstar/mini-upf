@@ -5,7 +5,7 @@
 #   make check      test + functest
 #   make SANITIZE=1 ...   build everything with ASan + UBSan
 #   make lint       cppcheck + clang-format check
-#   make fuzz       libFuzzer target (clang)
+#   make fuzz       libFuzzer target (clang); seed corpus in tests/fuzz/corpus
 #   make clean
 
 CC      ?= gcc

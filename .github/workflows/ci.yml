@@ -51,7 +51,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: make fuzz
-      - run: ./build/fuzz_gtpu -max_total_time=60 -max_len=2048
+      - run: ./build/fuzz_gtpu tests/fuzz/corpus -max_total_time=60 -max_len=2048
 
   docker:
     runs-on: ubuntu-24.04
