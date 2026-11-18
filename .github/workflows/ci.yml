@@ -1,0 +1,62 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build-test:
+    name: build + test (${{ matrix.cc }})
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        cc: [gcc, clang]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install test deps
+        run: pip install -r requirements-dev.txt
+      - name: Build
+        run: make CC=${{ matrix.cc }}
+      - name: Unit tests
+        run: make CC=${{ matrix.cc }} test
+      - name: Functional tests
+        run: make CC=${{ matrix.cc }} functest
+
+  sanitizers:
+    name: ASan + UBSan
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements-dev.txt
+      - run: make SANITIZE=1 test functest
+
+  lint:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update && sudo apt-get install -y cppcheck clang-format
+      - run: make lint
+
+  fuzz-smoke:
+    name: fuzz (60 s smoke run)
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - run: make fuzz
+      - run: ./build/fuzz_gtpu -max_total_time=60 -max_len=2048
+
+  docker:
+    runs-on: ubuntu-24.04
+    needs: [build-test]
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t mini-upf:ci .
+      - run: docker run --rm mini-upf:ci -h || true

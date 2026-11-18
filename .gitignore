@@ -1,0 +1,10 @@
+build/
+*.o
+*.d
+.pytest_cache/
+__pycache__/
+crash-*
+leak-*
+timeout-*
+*.pcap
+*.pcapng
