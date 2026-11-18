@@ -8,3 +8,4 @@ leak-*
 timeout-*
 *.pcap
 *.pcapng
+!docs/captures/*.pcap
