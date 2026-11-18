@@ -29,13 +29,13 @@ header processing, session rule lookup, multi-core fast paths and measurement.
 | GTP-U parse/build, ext headers, QFI | `src/gtpu.c` | done |
 | Echo Request/Response (path management) | `src/main.c` | done |
 | Counters (JSON) | `src/stats.c` | done |
-| N6 TUN interface | `src/tun.c` | week 1 |
-| Session/rule table (TEID, UE IP) | `src/rules.c` | week 1 |
-| PFCP association + session establishment | `src/pfcp.c` | week 2 |
-| Multi-worker fast path, lock-free rings | `src/worker.c` | week 3–4 |
-| AF_XDP data path | `src/xsk.c` | week 5 |
+| N6 TUN interface | `src/tun.c` | planned |
+| Session/rule table (TEID, UE IP) | `src/rules.c` | planned |
+| PFCP association + session establishment | `src/pfcp.c` | planned |
+| Multi-worker fast path, lock-free rings | `src/worker.c` | planned |
+| AF_XDP data path | `src/xsk.c` | planned |
 
-See [docs/ROADMAP.md](docs/ROADMAP.md) and [docs/WEEK1.md](docs/WEEK1.md).
+See [docs/ROADMAP.md](docs/ROADMAP.md).
 
 ## Build and test
 
@@ -82,13 +82,13 @@ docker run --rm -p 2152:2152/udp mini-upf -v
 - **Functional tests** (`tests/func`): the real binary on a free localhost port,
   driven with Scapy-built packets; counters are checked from the JSON output.
 - **Sanitizers, static analysis, fuzzing** run in CI on every push.
-- **End-to-end** (week 2): Open5GS SMF + srsRAN gNB/UE over ZMQ, traffic from the
+- **End-to-end** (planned): Open5GS SMF + srsRAN gNB/UE over ZMQ, traffic from the
   UE through mini-upf; pcaps under `docs/captures/`.
 
 ## Results
 
 Benchmarks (packets per second, latency percentiles, scaling over cores) will be
-published in `docs/BENCHMARKS.md` from week 3.
+published in `docs/BENCHMARKS.md`.
 
 ## References
 

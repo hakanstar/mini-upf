@@ -5,7 +5,7 @@
 #include <stdint.h>
 #include <stdio.h>
 
-/* Per-process counters. Week 3: make these per-worker and lock-free. */
+/* Per-process counters (to become per-worker counters in the multi-core data path). */
 typedef struct upf_stats {
     uint64_t rx_pkts;
     uint64_t rx_bytes;
@@ -15,9 +15,9 @@ typedef struct upf_stats {
     uint64_t rx_end_marker;
     uint64_t rx_unknown_type;
     uint64_t rx_malformed;
-    uint64_t rx_unknown_teid; /* Day 3: no matching rule */
-    uint64_t tx_n6_pkts;      /* Day 4: decapsulated and sent to N6 (TUN) */
-    uint64_t tx_n3_pkts;      /* Day 4: encapsulated and sent to gNB */
+    uint64_t rx_unknown_teid; /* no matching session rule */
+    uint64_t tx_n6_pkts;      /* decapsulated and sent to N6 (TUN) */
+    uint64_t tx_n3_pkts;      /* encapsulated and sent to the gNB */
 } upf_stats_t;
 
 /* One JSON object on one line, easy to parse from tests and scripts. */

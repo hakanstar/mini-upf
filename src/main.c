@@ -2,10 +2,10 @@
 /*
  * mini-upf: a small 5G user plane function in C.
  *
- * Current state (skeleton): listens on the N3 interface (UDP/2152),
- * parses GTP-U, answers Echo Requests and counts G-PDUs.
- * Week 1 adds: static TEID rule table (Day 3) and N3 <-> N6 forwarding
- * through a TUN device (Day 4). See docs/WEEK1.md.
+ * Current state: listens on the N3 interface (UDP/2152), parses GTP-U,
+ * answers Echo Requests and counts G-PDUs.
+ * Next: session rule table and N3 <-> N6 forwarding through a TUN device
+ * (see docs/ROADMAP.md).
  */
 #include "upf/gtpu.h"
 #include "upf/stats.h"
@@ -131,8 +131,8 @@ static void handle_datagram(int fd, const uint8_t *buf, size_t len,
         if (cfg->verbose)
             fprintf(stderr, "G-PDU teid=0x%08x qfi=%d inner=%zu bytes\n", h.teid,
                     h.has_qfi ? h.qfi : -1, h.payload_len);
-        /* TODO Day 3: look up h.teid in the rule table (PDR -> FAR).
-         * TODO Day 4: write buf + h.hdr_len (inner IP packet) to the N6 TUN. */
+        /* TODO: look up h.teid in the session table (PDR -> FAR), then write
+         * buf + h.hdr_len (the inner IP packet) to the N6 TUN device. */
         break;
     case GTPU_END_MARKER: st->rx_end_marker++; break;
     default: st->rx_unknown_type++; break;
